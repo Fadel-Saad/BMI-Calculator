@@ -1,7 +1,17 @@
+import { useState } from "react";
+
 export default function App() {
+  const [height, setHeight] = useState("");
+  const [weight, setWeight] = useState("");
+
   return (
     <div className="main">
-      <UserInput />
+      <UserInput
+        height={height}
+        setHeight={setHeight}
+        weight={weight}
+        setWeight={setWeight}
+      />
       <Result />
       <Tips />
       <Limitations />
@@ -9,7 +19,19 @@ export default function App() {
   );
 }
 
-function UserInput() {
+function UserInput({ height, setHeight, weight, setWeight }) {
+  const BMI = bmiCalculator();
+
+  function bmiCalculator() {
+    const x = weight / Math.pow(height / 100, 2);
+    return Math.round(x * 10) / 10;
+  }
+
+  function healthyWeight(bmi) {
+    const weight = bmi * Math.pow(height / 100, 2);
+    return weight.toFixed(1);
+  }
+
   return (
     <div className="hero">
       <div className="hero-left">
@@ -29,36 +51,82 @@ function UserInput() {
         <h2>Enter your details below</h2>
 
         <div className="toggle">
-          <input type="radio" id="metric" name="unit"></input>
-          <label for="Metric">Metric</label>
+          <input type="radio" name="unit"></input>
+          <label>Metric</label>
         </div>
         <div className="toggle">
-          <input type="radio" name="unit"></input>
-          <label for="Imperial">Imperial</label>
+          <input type="radio" name="unit" value={weight}></input>
+          <label>Imperial</label>
         </div>
 
         <div className="input-group">
           <label>Height</label>
           <div className="input-wrapper">
-            <input type="text" placeholder="0"></input>
+            <input
+              type="number"
+              placeholder="0"
+              value={height}
+              onChange={(e) => setHeight(e.target.value)}
+            ></input>
             <span>cm</span>
           </div>
         </div>
         <div className="input-group">
           <label>Weight</label>
           <div className="input-wrapper">
-            <input type="text" placeholder="0"></input>
+            <input
+              type="number"
+              placeholder="0"
+              value={weight}
+              onChange={(e) => setWeight(e.target.value)}
+            ></input>
             <span>kg</span>
           </div>
         </div>
 
-        <div className="form-footer">
-          <h3>Welcome!</h3>
-          <p>
-            Enter your height and weight and you’ll see your BMI
-            result here
-          </p>
-        </div>
+        {!height || !weight ? (
+          <div className="form-footer">
+            <h3>Welcome!</h3>
+            <p>
+              Enter your height and weight and you’ll see your BMI
+              result here
+            </p>
+          </div>
+        ) : (
+          <div className="form-footer active">
+            <div>
+              <h3>Your BMI is...</h3>
+              <strong>{BMI}</strong>
+            </div>
+            {BMI < 18.5 && (
+              <p>
+                Your BMI suggests you’re Underweight. Your ideal
+                weight should not be less than {healthyWeight(18.5)}
+                kgs.
+              </p>
+            )}
+            {BMI < 24.9 && BMI > 18.5 && (
+              <p>
+                Your BMI suggests you’re a healthy weight. Your ideal
+                weight is between {healthyWeight(18.5)}
+                kgs - {healthyWeight(24.9)}kgs.
+              </p>
+            )}
+            {BMI < 29.9 && BMI > 25 && (
+              <p>
+                Your BMI suggests you’re Overweight. Your ideal weight
+                is between {healthyWeight(25)}kgs -
+                {healthyWeight(29.9)}kgs.
+              </p>
+            )}
+            {BMI > 30 && (
+              <p>
+                Your BMI suggests you’re Obese. Your ideal weight
+                should not be more than {healthyWeight(30)} kgs.
+              </p>
+            )}
+          </div>
+        )}
       </form>
     </div>
   );
