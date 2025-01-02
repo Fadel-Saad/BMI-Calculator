@@ -20,6 +20,7 @@ export default function App() {
 }
 
 function UserInput({ height, setHeight, weight, setWeight }) {
+  const [unit, setUnit] = useState("imperial");
   const BMI = bmiCalculator();
 
   function bmiCalculator() {
@@ -51,38 +52,85 @@ function UserInput({ height, setHeight, weight, setWeight }) {
         <h2>Enter your details below</h2>
 
         <div className="toggle">
-          <input type="radio" name="unit"></input>
+          <input
+            type="radio"
+            name="unit"
+            value="metric"
+            onChange={(e) => setUnit(e.target.value)}
+            checked={unit === "metric"}
+          ></input>
           <label>Metric</label>
         </div>
         <div className="toggle">
-          <input type="radio" name="unit" value={weight}></input>
+          <input
+            type="radio"
+            name="unit"
+            value="imperial"
+            onChange={(e) => setUnit(e.target.value)}
+            checked={unit === "imperial"}
+          ></input>
           <label>Imperial</label>
         </div>
 
-        <div className="input-group">
-          <label>Height</label>
-          <div className="input-wrapper">
-            <input
-              type="number"
-              placeholder="0"
-              value={height}
-              onChange={(e) => setHeight(e.target.value)}
-            ></input>
-            <span>cm</span>
-          </div>
-        </div>
-        <div className="input-group">
-          <label>Weight</label>
-          <div className="input-wrapper">
-            <input
-              type="number"
-              placeholder="0"
-              value={weight}
-              onChange={(e) => setWeight(e.target.value)}
-            ></input>
-            <span>kg</span>
-          </div>
-        </div>
+        {unit === "metric" && (
+          <>
+            <div className="input-group">
+              <label>Height</label>
+              <div className="input-wrapper">
+                <input
+                  type="number"
+                  placeholder="0"
+                  value={height}
+                  onChange={(e) => setHeight(e.target.value)}
+                ></input>
+                <span>cm</span>
+              </div>
+            </div>
+            <div className="input-group">
+              <label>Weight</label>
+              <div className="input-wrapper">
+                <input
+                  type="number"
+                  placeholder="0"
+                  value={weight}
+                  onChange={(e) => setWeight(e.target.value)}
+                ></input>
+                <span>kg</span>
+              </div>
+            </div>
+          </>
+        )}
+
+        {unit === "imperial" && (
+          <>
+            <div className="input-group">
+              <label>Height</label>
+              <div className="input-wrapper">
+                <input type="number" placeholder="0"></input>
+                <span>ft</span>
+              </div>
+            </div>
+            <div className="input-group">
+              <div className="input-wrapper scnd-unit">
+                <input type="number" placeholder="0"></input>
+                <span>in</span>
+              </div>
+            </div>
+            <div className="input-group">
+              <label>Height</label>
+              <div className="input-wrapper">
+                <input type="number" placeholder="0"></input>
+                <span>st</span>
+              </div>
+            </div>
+            <div className="input-group">
+              <div className="input-wrapper scnd-unit">
+                <input type="number" placeholder="0"></input>
+                <span>lbs</span>
+              </div>
+            </div>
+          </>
+        )}
 
         {!height || !weight ? (
           <div className="form-footer">
