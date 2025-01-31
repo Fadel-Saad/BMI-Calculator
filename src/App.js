@@ -20,7 +20,7 @@ export default function App() {
 }
 
 function UserInput({ height, setHeight, weight, setWeight }) {
-  const [unit, setUnit] = useState("imperial");
+  const [unit, setUnit] = useState("metric");
   const BMI = bmiCalculator();
 
   function bmiCalculator() {
