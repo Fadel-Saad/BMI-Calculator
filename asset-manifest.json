@@ -1,0 +1,13 @@
+{
+  "files": {
+    "main.css": "/BMI-Calculator/static/css/main.e616c8c2.css",
+    "main.js": "/BMI-Calculator/static/js/main.c7a18415.js",
+    "index.html": "/BMI-Calculator/index.html",
+    "main.e616c8c2.css.map": "/BMI-Calculator/static/css/main.e616c8c2.css.map",
+    "main.c7a18415.js.map": "/BMI-Calculator/static/js/main.c7a18415.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.e616c8c2.css",
+    "static/js/main.c7a18415.js"
+  ]
+}
